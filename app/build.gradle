@@ -32,10 +32,17 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
+
 }
 
 dependencies {
     def nav_version = "2.5.3"
+    def paging_version = "3.1.1"
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
@@ -57,6 +64,12 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
+    //paging 3
+    implementation "androidx.paging:paging-runtime:$paging_version"
 
+    //glide
+    implementation 'com.github.bumptech.glide:glide:4.14.2'
+    // Skip this if you don't want to use integration libraries or configure Glide.
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
 
 }
