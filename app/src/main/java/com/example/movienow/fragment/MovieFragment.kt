@@ -18,10 +18,11 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MovieFragment : Fragment() {
     private lateinit var binding: FragmentMovieBinding
-    private lateinit var rcvMovie: RecyclerView
+    private lateinit var movieAdapter:MovieAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        movieAdapter = MovieAdapter()
     }
 
     override fun onCreateView(
@@ -34,7 +35,10 @@ class MovieFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        rcvMovie.adapter = MovieAdapter()
+        binding.rcvMovieList.apply {
+            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+            adapter = movieAdapter
+        }
     }
 
 }
