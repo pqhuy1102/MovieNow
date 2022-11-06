@@ -2,7 +2,6 @@ package com.example.movienow.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.movienow.R
 import com.example.movienow.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 

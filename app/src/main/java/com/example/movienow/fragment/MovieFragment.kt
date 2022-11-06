@@ -5,20 +5,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
-import com.example.movienow.R
 import com.example.movienow.adapter.MovieAdapter
 import com.example.movienow.databinding.FragmentMovieBinding
+import com.example.movienow.utils.Status
+import com.example.movienow.viewModel.MovieViewModel
 import dagger.hilt.android.AndroidEntryPoint
-
-
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MovieFragment : Fragment() {
     private lateinit var binding: FragmentMovieBinding
-    private lateinit var movieAdapter:MovieAdapter
+
+    @Inject
+    lateinit var movieAdapter:MovieAdapter
+
+    private lateinit var movieViewModel: MovieViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,8 +32,9 @@ class MovieFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentMovieBinding.inflate(layoutInflater, container, false)
+        movieViewModel = ViewModelProvider(this)[MovieViewModel::class.java]
         return binding.root
     }
 
@@ -39,6 +44,25 @@ class MovieFragment : Fragment() {
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             adapter = movieAdapter
         }
+
+        movieViewModel.movieResponse.observe(viewLifecycleOwner){
+            when (it.getContentIfNotHandled()?.status){
+                Status.LOADING -> {
+                    binding.progressbar.visibility = View.VISIBLE
+                }
+                Status.ERROR -> {
+                    Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show()
+                    binding.progressbar.visibility = View.GONE
+                }
+                Status.SUCCESS -> {
+                    binding.progressbar.visibility = View.GONE
+                    it.peekContent().data?.let { it1 -> movieAdapter.updateMovies(it1) }
+                }
+                else -> {}
+            }
+        }
+
+
     }
 
 }

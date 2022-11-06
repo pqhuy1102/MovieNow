@@ -9,10 +9,14 @@ import com.example.movienow.databinding.MovieItemBinding
 import javax.inject.Inject
 
 class MovieAdapter @Inject constructor() : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>(){
-    val movies = listOf<Movie>(Movie("https://m.media-amazon.com/images/M/MV5BMGVmMWNiMDktYjQ0Mi00MWIxLTk0N2UtN2ZlYTdkN2IzNDNlXkEyXkFqcGdeQXVyODE5NzE3OTE@._V1_SX300.jpg", "abc", "xyz", "2000", "111"))
+    var movies = mutableListOf<Movie>()
+
+    fun updateMovies(movies:List<Movie>){
+        this.movies = movies.toMutableList()
+        notifyItemRangeInserted(0, movies.size)
+    }
 
     class MovieViewHolder(val binding: MovieItemBinding) : RecyclerView.ViewHolder(binding.root){
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {

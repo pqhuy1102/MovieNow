@@ -7,7 +7,7 @@ import retrofit2.http.Query
 
 interface MovieApiService {
 
-    @GET()
+    @GET("/")
     suspend fun getAllMovies(
         @Query("s") s:String,
         @Query("page")page:Int,
