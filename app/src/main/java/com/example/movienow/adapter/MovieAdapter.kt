@@ -6,9 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movienow.data.remote.partial.Movie
 import com.example.movienow.databinding.MovieItemBinding
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-class MovieAdapter @Inject constructor() : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>(){
+class MovieAdapter () : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>(){
     var movies = mutableListOf<Movie>()
 
     fun updateMovies(movies:List<Movie>?){
@@ -16,7 +17,10 @@ class MovieAdapter @Inject constructor() : RecyclerView.Adapter<MovieAdapter.Mov
         notifyItemRangeInserted(0, movies.size)
     }
 
-    class MovieViewHolder(val binding: MovieItemBinding) : RecyclerView.ViewHolder(binding.root){
+    class MovieViewHolder(private val binding: MovieItemBinding) : RecyclerView.ViewHolder(binding.root){
+        fun bind(movie:Movie){
+            binding.movie = movie
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
@@ -25,17 +29,20 @@ class MovieAdapter @Inject constructor() : RecyclerView.Adapter<MovieAdapter.Mov
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        val movie = movies[position]
-        holder.binding.tvTitle.text = movie.Title
-        holder.binding.rvYear.text = movie.Year
-
-        Glide.with(holder.binding.imgMovieImage.context)
-            .load(movie.Poster)
-            .centerCrop()
-            .into(holder.binding.imgMovieImage)
+        val movie = movies?.get(position)
+        if (movie != null) {
+            holder.bind(movie)
+        }
+//        holder.binding.tvTitle.text = movie.Title
+//        holder.binding.rvYear.text = movie.Year
+//
+//        Glide.with(holder.binding.imgMovieImage.context)
+//            .load(movie.Poster)
+//            .centerCrop()
+//            .into(holder.binding.imgMovieImage)
     }
 
     override fun getItemCount(): Int {
-        return movies.size
+        return movies!!.size
     }
 }

@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movienow.adapter.MovieAdapter
+import com.example.movienow.data.remote.partial.Movie
 import com.example.movienow.databinding.FragmentMovieBinding
 import com.example.movienow.utils.Status
 import com.example.movienow.viewModel.MovieViewModel
@@ -19,14 +20,12 @@ import javax.inject.Inject
 class MovieFragment : Fragment() {
     private lateinit var binding: FragmentMovieBinding
 
-    @Inject
-    lateinit var movieAdapter:MovieAdapter
+    private lateinit var movieAdapter:MovieAdapter
 
     private lateinit var movieViewModel: MovieViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        movieAdapter = MovieAdapter()
     }
 
     override fun onCreateView(
@@ -35,15 +34,12 @@ class MovieFragment : Fragment() {
     ): View {
         binding = FragmentMovieBinding.inflate(layoutInflater, container, false)
         movieViewModel = ViewModelProvider(this)[MovieViewModel::class.java]
+        movieAdapter = MovieAdapter()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.rcvMovieList.apply {
-            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-            adapter = movieAdapter
-        }
 
         movieViewModel.getAllMovies()
 
@@ -60,8 +56,12 @@ class MovieFragment : Fragment() {
                     binding.progressbar.visibility = View.GONE
                     movieAdapter.updateMovies(it.data)
                 }
-                else -> {}
             }
+        }
+
+        binding.rcvMovieList.apply {
+            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+            adapter = movieAdapter
         }
 
 

@@ -1,5 +1,6 @@
 package com.example.movienow.utils
 
+//convey Network call to the UI layer
 class Resource<out T>(val status: Status, val data: T?, val message: String?) {
 
     companion object {
@@ -18,6 +19,7 @@ class Resource<out T>(val status: Status, val data: T?, val message: String?) {
     }
 }
 
+//UI State
 enum class Status {
     SUCCESS,
     ERROR,
