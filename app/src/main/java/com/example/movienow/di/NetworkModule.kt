@@ -21,4 +21,5 @@ object NetworkModule {
             .build()
             .create(MovieApiService::class.java)
     }
+
 }

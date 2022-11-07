@@ -45,8 +45,10 @@ class MovieFragment : Fragment() {
             adapter = movieAdapter
         }
 
+        movieViewModel.getAllMovies()
+
         movieViewModel.movieResponse.observe(viewLifecycleOwner){
-            when (it.getContentIfNotHandled()?.status){
+            when (it.status){
                 Status.LOADING -> {
                     binding.progressbar.visibility = View.VISIBLE
                 }
@@ -56,7 +58,7 @@ class MovieFragment : Fragment() {
                 }
                 Status.SUCCESS -> {
                     binding.progressbar.visibility = View.GONE
-                    it.peekContent().data?.let { it1 -> movieAdapter.updateMovies(it1) }
+                    movieAdapter.updateMovies(it.data)
                 }
                 else -> {}
             }

@@ -11,8 +11,8 @@ import javax.inject.Inject
 class MovieAdapter @Inject constructor() : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>(){
     var movies = mutableListOf<Movie>()
 
-    fun updateMovies(movies:List<Movie>){
-        this.movies = movies.toMutableList()
+    fun updateMovies(movies:List<Movie>?){
+        this.movies = movies!!.toMutableList()
         notifyItemRangeInserted(0, movies.size)
     }
 
