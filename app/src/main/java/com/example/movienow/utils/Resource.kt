@@ -1,6 +1,6 @@
 package com.example.movienow.utils
 
-//convey Network call to the UI layer
+//convey current state of Network call to the UI layer
 class Resource<out T>(val status: Status, val data: T?, val message: String?) {
 
     companion object {

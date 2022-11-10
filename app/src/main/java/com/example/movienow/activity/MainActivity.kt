@@ -3,6 +3,8 @@ package com.example.movienow.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.movienow.R
 import com.example.movienow.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -13,5 +15,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
     }
 }

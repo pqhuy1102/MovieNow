@@ -18,5 +18,9 @@
         android:id="@+id/detailFragment"
         android:name="com.example.movienow.fragment.DetailFragment"
         android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" />
+        tools:layout="@layout/fragment_detail" >
+        <argument
+            android:name="movieId"
+            app:argType="string" />
+    </fragment>
 </navigation>
