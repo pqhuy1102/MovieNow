@@ -6,9 +6,8 @@ import com.bumptech.glide.Glide
 
 @BindingAdapter("loadImage")
 fun loadImage(view:ImageView, url:String?){
-
-    url?.let{
+    val posterUrl:String = Constants.POSTER_URL + url
+    posterUrl.let{
         Glide.with(view).load(it).into(view)
     }
-
 }

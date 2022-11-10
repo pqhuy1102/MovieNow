@@ -34,7 +34,7 @@
                     android:id="@+id/movie_detail_img"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:loadImage="@{movieDetail.poster}"
+                    app:loadImage="@{movieDetail.poster_path}"
                     android:scaleType="centerCrop" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -75,7 +75,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:textSize="15sp"
-            android:text="@{movieDetail.plot}"
+            android:text="@{movieDetail.overview}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvDetailTitle" />
 

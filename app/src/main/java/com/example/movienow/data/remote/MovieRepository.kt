@@ -3,7 +3,6 @@ package com.example.movienow.data.remote
 import com.example.movienow.data.remote.response.MovieDetail
 import com.example.movienow.data.remote.response.MovieResponse
 import com.example.movienow.data.remote.service.MovieApiService
-import com.example.movienow.utils.Constants
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
