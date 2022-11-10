@@ -20,7 +20,7 @@ class DetailFragment : Fragment() {
     private lateinit var binding: FragmentDetailBinding
     private lateinit var movieViewModel: MovieViewModel
 
-    val args: DetailFragmentArgs by navArgs<DetailFragmentArgs>()
+    private val args: DetailFragmentArgs by navArgs<DetailFragmentArgs>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

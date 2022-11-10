@@ -4,20 +4,17 @@ import com.example.movienow.data.remote.response.MovieDetail
 import com.example.movienow.data.remote.response.MovieResponse
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MovieApiService {
 
-    @GET("/")
+    @GET("movie/popular")
      fun getAllMovies(
-        @Query("s") s:String,
-        @Query("page")page:Int,
-        @Query("apiKey")apiKey:String
     ) : Single<MovieResponse>
 
-     @GET("/")
+     @GET("movie/{movie_id}")
      fun getMovieDetail(
-         @Query("i") i:String,
-         @Query("apiKey")apiKey: String
+         @Path("movie_id")id:Int
      ) : Single<MovieDetail>
 }

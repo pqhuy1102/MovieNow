@@ -1,37 +1,36 @@
 package com.example.movienow.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movienow.adapter.MovieAdapter
-import com.example.movienow.data.remote.partial.Movie
 import com.example.movienow.databinding.FragmentMovieBinding
 import com.example.movienow.utils.Status
 import com.example.movienow.viewModel.MovieViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint //generates an individual Hilt component -> receive dependencies
 class MovieFragment : Fragment() {
     private lateinit var binding: FragmentMovieBinding
 
-    lateinit var movieAdapter:MovieAdapter
+    private lateinit var movieAdapter:MovieAdapter
 
     private lateinit var movieViewModel: MovieViewModel
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         movieViewModel = ViewModelProvider(this)[MovieViewModel::class.java]
         movieAdapter = MovieAdapter(){
-          val action = MovieFragmentDirections.actionMovieFragmentToDetailFragment(it.imdbID)
+          val action = MovieFragmentDirections.actionMovieFragmentToDetailFragment(it.id)
             findNavController().navigate(action)
         }
     }
