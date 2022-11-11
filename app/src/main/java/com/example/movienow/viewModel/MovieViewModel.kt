@@ -27,6 +27,7 @@ class MovieViewModel @Inject constructor( // tell Hilt how to provide instances 
     private var _ratingStatus = MutableLiveData<String>()
     val ratingStatus:LiveData<String> = _ratingStatus
 
+    //get all movies
     init {
         movieRepository.getAllMovies()
             .subscribe(
@@ -35,7 +36,6 @@ class MovieViewModel @Inject constructor( // tell Hilt how to provide instances 
                 }
             ) { e -> _networkStatusMovie.value = Resource(Status.ERROR, null,e.message.toString()) }
     }
-
 
     fun getMovieDetail(movieId:Int) {
         movieRepository.getMovieDetail(movieId)

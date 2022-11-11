@@ -63,6 +63,7 @@ class DetailFragment : Fragment() {
             }
         })
 
+        //handle rating event
         binding.btnSubmit.setOnClickListener {
             ratingValue = binding.ratingBar.rating.toDouble()
             handleRatingRequest()
@@ -71,6 +72,7 @@ class DetailFragment : Fragment() {
             }
         }
 
+        //click poster to watch trailer on youtube
         binding.movieDetailImg.setOnClickListener {
             startActivity(
                 Intent(

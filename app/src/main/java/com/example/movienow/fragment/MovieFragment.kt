@@ -69,6 +69,8 @@ class MovieFragment : Fragment() {
                 }
             }
         }
+
+        //handle search movie
         binding.searchView.onActionViewExpanded()
         binding.searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
