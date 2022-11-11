@@ -5,4 +5,7 @@
     <string name="rating_this_movie">Rating this movie:</string>
     <string name="submit">Submit</string>
     <string name="movienow">MovieNow!</string>
+    <string name="bn_home">Home</string>
+    <string name="bn_favorites">Favorites</string>
+    <string name="action_search">Search</string>
 </resources>

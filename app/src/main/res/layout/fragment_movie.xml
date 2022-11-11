@@ -31,6 +31,22 @@
             app:layout_constraintVertical_bias="0.045" />
     </LinearLayout>
 
+    <SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:queryHint="Search movie..."
+        app:iconifiedByDefault="true"
+        app:queryBackground="@null"
+        android:background="@drawable/custom_search"
+        app:layout_constraintBottom_toTopOf="@id/rcvMovieList"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linearAppName" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvMovieList"
         android:layout_width="0dp"
@@ -42,7 +58,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linearAppName" />
+        app:layout_constraintTop_toBottomOf="@id/search_view" />
 
     <ProgressBar
         android:id="@+id/progressbar"
