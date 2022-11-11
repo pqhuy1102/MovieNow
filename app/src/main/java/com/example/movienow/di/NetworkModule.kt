@@ -31,6 +31,7 @@ object NetworkModule {
                 .url
                 .newBuilder()
                 .addQueryParameter("api_key", Constants.API_KEY)
+                .addQueryParameter("session_id", Constants.SESSION_ID)
                 .build()
             val request = chain.request()
                 .newBuilder()

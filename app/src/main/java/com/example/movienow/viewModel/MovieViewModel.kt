@@ -5,8 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.movienow.data.remote.MovieRepository
 import com.example.movienow.data.remote.partial.Movie
+import com.example.movienow.data.remote.request.RatingRequest
 import com.example.movienow.data.remote.response.MovieDetail
 import com.example.movienow.data.remote.response.MovieResponse
+import com.example.movienow.data.remote.response.RatingResponse
 import com.example.movienow.utils.Resource
 import com.example.movienow.utils.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,6 +23,9 @@ class MovieViewModel @Inject constructor( // tell Hilt how to provide instances 
 
     private var _networkStatusMovieDetail = MutableLiveData<Resource<MovieDetail>>()
     val networkStatusMovieDetail: LiveData<Resource<MovieDetail>> = _networkStatusMovieDetail
+
+    private var _ratingStatus = MutableLiveData<String>()
+    val ratingStatus:LiveData<String> = _ratingStatus
 
     init {
         movieRepository.getAllMovies()
@@ -40,6 +45,15 @@ class MovieViewModel @Inject constructor( // tell Hilt how to provide instances 
                 }
             ) { e -> _networkStatusMovieDetail.value = Resource(Status.ERROR, null,e.message.toString()) }
 
+    }
+
+    fun ratingMovie(ratingValue:RatingRequest , movieId: Int){
+        movieRepository.ratingMovie(movieId, ratingValue)
+            .subscribe(
+                fun(status: RatingResponse){
+                    _ratingStatus.value = status.status_message
+                }
+            ){ e -> _ratingStatus.value = e.message.toString() }
     }
 }
 

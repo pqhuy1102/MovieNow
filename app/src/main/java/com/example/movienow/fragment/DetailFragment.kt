@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.example.movienow.data.remote.request.RatingRequest
 import com.example.movienow.databinding.FragmentDetailBinding
 import com.example.movienow.utils.Status
 import com.example.movienow.viewModel.MovieViewModel
@@ -19,6 +20,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class DetailFragment : Fragment() {
     private lateinit var binding: FragmentDetailBinding
     private lateinit var movieViewModel: MovieViewModel
+    private var ratingValue: Double = 0.0
+    private  var movieId: Int = 0
 
     private val args: DetailFragmentArgs by navArgs<DetailFragmentArgs>()
 
@@ -39,7 +42,7 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val movieId = args.movieId
+        movieId = args.movieId
         movieViewModel.getMovieDetail(movieId)
 
         movieViewModel.networkStatusMovieDetail.observe(viewLifecycleOwner, Observer {
@@ -58,6 +61,18 @@ class DetailFragment : Fragment() {
             }
         })
 
+        binding.btnSubmit.setOnClickListener {
+            ratingValue = binding.ratingBar.rating.toDouble()
+            handleRatingRequest()
+            movieViewModel.ratingStatus.observe(viewLifecycleOwner) {
+                Toast.makeText(activity, it, Toast.LENGTH_LONG).show()
+            }
+        }
+
+    }
+
+    private fun handleRatingRequest() {
+        movieViewModel.ratingMovie(RatingRequest(ratingValue), movieId)
     }
 
 }
