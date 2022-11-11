@@ -4,4 +4,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="rating_this_movie">Rating this movie:</string>
     <string name="submit">Submit</string>
+    <string name="movienow">MovieNow!</string>
 </resources>

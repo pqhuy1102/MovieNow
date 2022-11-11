@@ -1,5 +1,6 @@
 package com.example.movienow.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -8,12 +9,12 @@ import com.example.movienow.databinding.MovieItemBinding
 import javax.inject.Inject
 
 
-class MovieAdapter @Inject constructor(private val itemClickListener: (Movie) -> Unit) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>(){
+class MovieAdapter(private val itemClickListener: (Movie) -> Unit) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>(){
     private var movies = mutableListOf<Movie>()
 
     fun updateMovies(moviesList:List<Movie>?){
         this.movies = moviesList!!.toMutableList()
-        this.notifyItemRangeInserted(0, moviesList.size)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
