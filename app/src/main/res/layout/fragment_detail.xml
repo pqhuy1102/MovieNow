@@ -53,6 +53,7 @@
                 android:text="@{movieDetail.title}"
                 android:textStyle="bold"
                 android:textSize="25sp"
+                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardView"
@@ -91,6 +92,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:textSize="18sp"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 android:text="@string/rating_this_movie"
                 app:layout_constraintStart_toStartOf="parent"
@@ -120,6 +122,29 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
 
+
+            <TextView
+                android:id="@+id/tvSimilarMovies"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
+                android:text="@string/similar_movies"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnSubmit" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcvSimilarMovies"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvSimilarMovies" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

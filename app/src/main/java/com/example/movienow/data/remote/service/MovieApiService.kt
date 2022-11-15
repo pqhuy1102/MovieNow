@@ -4,6 +4,8 @@ import com.example.movienow.data.remote.request.RatingRequest
 import com.example.movienow.data.remote.response.MovieDetail
 import com.example.movienow.data.remote.response.MovieResponse
 import com.example.movienow.data.remote.response.RatingResponse
+import com.example.movienow.data.remote.response.SimilarMoviesResponse
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -20,7 +22,12 @@ interface MovieApiService {
      @GET("movie/{movie_id}")
      fun getMovieDetail(
          @Path("movie_id")id:Int
-     ) : Single<MovieDetail>
+     ) : Observable<MovieDetail>
+
+     @GET("/movie/{movie_id}/similar")
+     fun getSimilarMovie(
+         @Path("movie_id")id:Int
+     ):Single<SimilarMoviesResponse>
 
     @Headers("Content-Type: application/json")
     @POST("movie/{movie_id}/rating")

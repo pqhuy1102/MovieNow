@@ -47,7 +47,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:background="@tools:sample/backgrounds/scenic" />
 
-
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/rvRating"
                 android:layout_width="0dp"
@@ -55,7 +54,7 @@
                 android:layout_margin="8dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="16sp"
-                android:text="@{movie.original_title}"
+                android:text="@{String.valueOf(movie.id)}"
                 app:layout_constraintStart_toEndOf="@id/imgMovieImage"
                 app:layout_constraintTop_toBottomOf="@id/tvTitle"
                 tools:text="@tools:sample/full_names" />
@@ -67,7 +66,7 @@
                 android:layout_margin="8dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="16sp"
-                android:text="@{movie.original_language}"
+                android:text="@{String.valueOf(movie.release_date)}"
                 app:layout_constraintStart_toEndOf="@id/imgMovieImage"
                 app:layout_constraintTop_toBottomOf="@id/rvRating"
                 tools:text="@tools:sample/full_names" />

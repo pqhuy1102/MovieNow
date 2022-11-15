@@ -8,4 +8,6 @@
     <string name="bn_home">Home</string>
     <string name="bn_favorites">Favorites</string>
     <string name="action_search">Search</string>
+    <string name="choose_theme">Choose theme</string>
+    <string name="similar_movies">Similar movies</string>
 </resources>

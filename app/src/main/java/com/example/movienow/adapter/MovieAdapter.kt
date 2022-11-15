@@ -1,6 +1,5 @@
 package com.example.movienow.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
@@ -8,7 +7,6 @@ import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movienow.data.remote.partial.Movie
 import com.example.movienow.databinding.MovieItemBinding
-import javax.inject.Inject
 
 
 class MovieAdapter(private val itemClickListener: (Movie) -> Unit) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>(), Filterable{
@@ -69,7 +67,6 @@ class MovieAdapter(private val itemClickListener: (Movie) -> Unit) : RecyclerVie
                 } else{
                     res.values as MutableList<Movie>
                 }
-
                 notifyDataSetChanged()
             }
 

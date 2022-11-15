@@ -1,14 +1,13 @@
 package com.example.movienow.fragment
 
 import android.annotation.SuppressLint
-import android.app.SearchManager
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.SearchView
 import android.widget.Toast
-import androidx.core.view.MenuHost
-import androidx.core.view.MenuProvider
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +17,7 @@ import com.example.movienow.databinding.FragmentMovieBinding
 import com.example.movienow.utils.Status
 import com.example.movienow.viewModel.MovieViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 @AndroidEntryPoint //generates an individual Hilt component -> receive dependencies
 class MovieFragment : Fragment() {
@@ -27,12 +27,14 @@ class MovieFragment : Fragment() {
 
     private lateinit var movieViewModel: MovieViewModel
 
+    private val disposables = CompositeDisposable()
+
 
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         movieViewModel = ViewModelProvider(this)[MovieViewModel::class.java]
-        movieAdapter = MovieAdapter(){
+        movieAdapter = MovieAdapter {
           val action = MovieFragmentDirections.actionMovieFragmentToDetailFragment(it.id)
             findNavController().navigate(action)
         }
@@ -71,7 +73,6 @@ class MovieFragment : Fragment() {
         }
 
         //handle search movie
-        binding.searchView.onActionViewExpanded()
         binding.searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 movieAdapter.filter.filter(query)
@@ -84,9 +85,45 @@ class MovieFragment : Fragment() {
             }
 
         })
+
+        //handle change theme
+        binding.btnTheme.setOnClickListener {
+            handleChooseThemeDialog()
+        }
+
     }
 
+    private fun handleChooseThemeDialog(){
+        val builder = AlertDialog.Builder(activity)
+        builder.setTitle(R.string.choose_theme)
+        val styles = arrayOf("Light Mode", "Dark Mode", "System Default")
+        var checkedItem = 0
 
+        builder.setSingleChoiceItems(styles, checkedItem){
+                dialog, which ->
+            when(which){
+                0 -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    dialog.dismiss()
+                }
+                1 -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    dialog.dismiss()
+                }
+                2 -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                    dialog.dismiss()
+                }
+            }
+        }
 
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        disposables.clear()
+    }
 
 }

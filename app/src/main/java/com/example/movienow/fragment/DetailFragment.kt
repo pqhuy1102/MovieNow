@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.movienow.adapter.SimilarMoviesAdapter
 import com.example.movienow.data.remote.request.RatingRequest
 import com.example.movienow.databinding.FragmentDetailBinding
 import com.example.movienow.utils.Status
@@ -22,15 +24,16 @@ import dagger.hilt.android.AndroidEntryPoint
 class DetailFragment : Fragment() {
     private lateinit var binding: FragmentDetailBinding
     private lateinit var movieViewModel: MovieViewModel
+    private lateinit var similarMovieAdapter: SimilarMoviesAdapter
     private var ratingValue: Double = 0.0
     private  var movieId: Int = 0
 
-    private val args: DetailFragmentArgs by navArgs<DetailFragmentArgs>()
+    private val args: DetailFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         movieViewModel = ViewModelProvider(this)[MovieViewModel::class.java]
-
+        similarMovieAdapter = SimilarMoviesAdapter()
     }
 
     override fun onCreateView(
@@ -47,8 +50,8 @@ class DetailFragment : Fragment() {
         movieId = args.movieId
         movieViewModel.getMovieDetail(movieId)
 
-        movieViewModel.networkStatusMovieDetail.observe(viewLifecycleOwner, Observer {
-            when(it.status){
+        movieViewModel.networkStatusMovieDetail.observe(viewLifecycleOwner) {
+            when (it.status) {
                 Status.LOADING -> {
                     binding.progressbarMovieDetail.visibility = View.VISIBLE
                 }
@@ -61,15 +64,39 @@ class DetailFragment : Fragment() {
                     binding.movieDetail = it.data
                 }
             }
+        }
+
+        //handle get similar movie
+        movieViewModel.networkStatusMovie.observe(viewLifecycleOwner, Observer {
+            when(it.status){
+                Status.SUCCESS -> {
+                    similarMovieAdapter.updateSimilarMovies(it.data)
+                }
+                Status.ERROR -> {
+                    Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
+                }
+                else -> {}
+            }
         })
 
         //handle rating event
         binding.btnSubmit.setOnClickListener {
             ratingValue = binding.ratingBar.rating.toDouble()
-            handleRatingRequest()
-            movieViewModel.ratingStatus.observe(viewLifecycleOwner) {
-                Toast.makeText(activity, it, Toast.LENGTH_LONG).show()
+
+            if(ratingValue != 0.0){
+                handleRatingRequest()
+                movieViewModel.ratingStatus.observe(viewLifecycleOwner) {
+                    Toast.makeText(activity, it, Toast.LENGTH_LONG).show()
+                }
+            } else{
+                Toast.makeText(activity, "Please rate before submit!", Toast.LENGTH_LONG).show()
             }
+        }
+
+        //handle similar movies
+        binding.rcvSimilarMovies.apply {
+            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+            adapter = similarMovieAdapter
         }
 
         //click poster to watch trailer on youtube
