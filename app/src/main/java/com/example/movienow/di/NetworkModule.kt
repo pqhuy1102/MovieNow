@@ -1,7 +1,6 @@
 package com.example.movienow.di
 
 import android.content.Context
-import com.example.movienow.MyApplication
 import com.example.movienow.data.local.database.AppDatabase
 import com.example.movienow.data.local.database.FavoriteMovieDao
 import com.example.movienow.data.remote.service.MovieApiService

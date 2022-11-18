@@ -8,6 +8,7 @@ import com.example.movienow.databinding.FavMovieItemBinding
 
 class FavoriteMoviesAdapter :RecyclerView.Adapter<FavoriteMoviesAdapter.FavoriteMovieViewHolder>() {
 
+
     private var favMovies = mutableListOf<FavoriteMovie>()
 
     fun updateFavMovies(movies:List<FavoriteMovie>){
@@ -35,3 +36,4 @@ class FavoriteMoviesAdapter :RecyclerView.Adapter<FavoriteMoviesAdapter.Favorite
         return favMovies.size
     }
 }
+

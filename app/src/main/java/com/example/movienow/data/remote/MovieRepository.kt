@@ -1,10 +1,8 @@
 package com.example.movienow.data.remote
 
 
-import com.example.movienow.data.local.database.AppDatabase
 import com.example.movienow.data.local.database.FavoriteMovie
 import com.example.movienow.data.local.database.FavoriteMovieDao
-import com.example.movienow.data.remote.partial.Movie
 import com.example.movienow.data.remote.request.RatingRequest
 import com.example.movienow.data.remote.response.MovieDetail
 import com.example.movienow.data.remote.response.MovieResponse

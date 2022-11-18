@@ -1,19 +1,14 @@
 package com.example.movienow.fragment
 
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.provider.CalendarContract.Colors
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,7 +23,6 @@ import com.example.movienow.utils.Status
 import com.example.movienow.viewModel.MovieViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class DetailFragment : Fragment() {
     private lateinit var binding: FragmentDetailBinding
@@ -37,7 +31,6 @@ class DetailFragment : Fragment() {
     private var ratingValue: Double = 0.0
     private  var movieId: Int = 0
     private  var movieDetail: MovieDetail? = null
-    private lateinit var favoriteMovies:List<FavoriteMovie>
 
     private val args: DetailFragmentArgs by navArgs()
 
@@ -82,11 +75,11 @@ class DetailFragment : Fragment() {
 
         //handle save to favorites
         isAddedToFavoriteMovies(movieId)
-        movieViewModel.isExistInFavoriteMovies.observe(viewLifecycleOwner, Observer {
-            if(it){
+        movieViewModel.isExistInFavoriteMovies.observe(viewLifecycleOwner) {
+            if (it) {
                 binding.btnFavorite.setBackgroundResource(R.drawable.ic_fav_red)
             }
-        })
+        }
         binding.btnFavorite.setOnClickListener {
             handleSaveToFavorites(FavoriteMovie(movieDetail!!.id, movieDetail!!.title, movieDetail!!.poster_path, movieDetail!!.release_date))
             binding.btnFavorite.setBackgroundResource(R.drawable.ic_fav_red)
@@ -94,8 +87,8 @@ class DetailFragment : Fragment() {
 
         //handle get similar movie
         movieViewModel.getSimilarMovie(movieId)
-        movieViewModel.networkStatusSimilarMovie.observe(viewLifecycleOwner, Observer {
-            when(it.status){
+        movieViewModel.networkStatusSimilarMovie.observe(viewLifecycleOwner) {
+            when (it.status) {
                 Status.SUCCESS -> {
                     similarMovieAdapter.updateSimilarMovies(it.data)
                 }
@@ -104,7 +97,7 @@ class DetailFragment : Fragment() {
                 }
                 else -> {}
             }
-        })
+        }
 
         //handle rating event
         binding.btnSubmit.setOnClickListener {

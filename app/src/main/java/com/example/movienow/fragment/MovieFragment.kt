@@ -2,7 +2,6 @@ package com.example.movienow.fragment
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.graphics.Color
 import android.os.Bundle
 import android.view.*
 import android.widget.*
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movienow.R
 import com.example.movienow.adapter.MovieAdapter
 import com.example.movienow.data.local.AppSharePreferences
-import com.example.movienow.data.local.database.FavoriteMovie
 import com.example.movienow.databinding.FragmentMovieBinding
 import com.example.movienow.utils.Status
 import com.example.movienow.viewModel.MovieViewModel

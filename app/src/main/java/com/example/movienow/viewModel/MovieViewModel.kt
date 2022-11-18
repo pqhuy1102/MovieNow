@@ -10,7 +10,6 @@ import com.example.movienow.data.remote.partial.Movie
 import com.example.movienow.data.remote.partial.SimilarMovie
 import com.example.movienow.data.remote.request.RatingRequest
 import com.example.movienow.data.remote.response.MovieDetail
-import com.example.movienow.data.remote.response.RatingResponse
 import com.example.movienow.utils.Resource
 import com.example.movienow.utils.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -67,7 +66,7 @@ class MovieViewModel @Inject constructor(
         movieRepository.ratingMovieWithBehaviorSubject(ratingValue, movieId)
         movieRepository.getRatingMovie().subscribe(
             {
-                _ratingStatus.postValue(it.status_message.toString())
+                _ratingStatus.postValue(it.status_message)
             },
             {
                 _ratingStatus.postValue(it.message.toString())

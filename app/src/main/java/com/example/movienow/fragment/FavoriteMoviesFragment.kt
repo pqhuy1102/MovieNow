@@ -1,17 +1,15 @@
 package com.example.movienow.fragment
 
-import android.opengl.Visibility
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
-import com.example.movienow.R
+import androidx.recyclerview.widget.RecyclerView
 import com.example.movienow.adapter.FavoriteMoviesAdapter
 import com.example.movienow.databinding.FragmentFavoriteMoviesBinding
 import com.example.movienow.utils.Status
@@ -23,6 +21,7 @@ class FavoriteMoviesFragment : Fragment() {
     private lateinit var binding: FragmentFavoriteMoviesBinding
     private lateinit var favMoviesAdapter: FavoriteMoviesAdapter
     private lateinit var movieViewModel: MovieViewModel
+    private lateinit var swipeHelper: ItemTouchHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,8 +48,8 @@ class FavoriteMoviesFragment : Fragment() {
         //handle get fav movies from db
         movieViewModel.getAllFavoriteMovies()
 
-        movieViewModel.getAllFavoriteMovieStatus.observe(viewLifecycleOwner, Observer {
-            when(it.status){
+        movieViewModel.getAllFavoriteMovieStatus.observe(viewLifecycleOwner) {
+            when (it.status) {
                 Status.LOADING -> {
                     binding.pbFavMovie.visibility = View.VISIBLE
                 }
@@ -63,8 +62,37 @@ class FavoriteMoviesFragment : Fragment() {
                     it.data?.let { it1 -> favMoviesAdapter.updateFavMovies(it1) }
                 }
             }
-        })
+        }
+
+        //handle remove movie
+        handleRemoveMovie()
 
     }
 
+    private fun handleRemoveMovie() {
+        swipeHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+            0,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
+            //more code here
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val pos = viewHolder.adapterPosition
+                //list.remove(pos)
+                favMoviesAdapter.notifyItemRemoved(pos)
+            }
+
+        })
+        swipeHelper.attachToRecyclerView(binding.rcvFavMovies)
+    }
+
+
 }
+

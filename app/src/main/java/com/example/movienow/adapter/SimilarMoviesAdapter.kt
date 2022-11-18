@@ -3,7 +3,6 @@ package com.example.movienow.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.movienow.data.remote.partial.Movie
 import com.example.movienow.data.remote.partial.SimilarMovie
 import com.example.movienow.databinding.SimilarMovieItemBinding
 
