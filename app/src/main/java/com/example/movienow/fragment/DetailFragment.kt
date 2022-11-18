@@ -1,19 +1,28 @@
 package com.example.movienow.fragment
 
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.provider.CalendarContract.Colors
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.movienow.R
 import com.example.movienow.adapter.SimilarMoviesAdapter
+import com.example.movienow.data.local.AppSharePreferences
+import com.example.movienow.data.local.database.FavoriteMovie
 import com.example.movienow.data.remote.request.RatingRequest
+import com.example.movienow.data.remote.response.MovieDetail
 import com.example.movienow.databinding.FragmentDetailBinding
 import com.example.movienow.utils.Status
 import com.example.movienow.viewModel.MovieViewModel
@@ -27,6 +36,8 @@ class DetailFragment : Fragment() {
     private lateinit var similarMovieAdapter: SimilarMoviesAdapter
     private var ratingValue: Double = 0.0
     private  var movieId: Int = 0
+    private  var movieDetail: MovieDetail? = null
+    private lateinit var favoriteMovies:List<FavoriteMovie>
 
     private val args: DetailFragmentArgs by navArgs()
 
@@ -50,6 +61,8 @@ class DetailFragment : Fragment() {
         movieId = args.movieId
         movieViewModel.getMovieDetail(movieId)
 
+        checkTheme()
+
         movieViewModel.networkStatusMovieDetail.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.LOADING -> {
@@ -62,12 +75,26 @@ class DetailFragment : Fragment() {
                 Status.SUCCESS -> {
                     binding.progressbarMovieDetail.visibility = View.GONE
                     binding.movieDetail = it.data
+                    movieDetail = it.data
                 }
             }
         }
 
+        //handle save to favorites
+        isAddedToFavoriteMovies(movieId)
+        movieViewModel.isExistInFavoriteMovies.observe(viewLifecycleOwner, Observer {
+            if(it){
+                binding.btnFavorite.setBackgroundResource(R.drawable.ic_fav_red)
+            }
+        })
+        binding.btnFavorite.setOnClickListener {
+            handleSaveToFavorites(FavoriteMovie(movieDetail!!.id, movieDetail!!.title, movieDetail!!.poster_path, movieDetail!!.release_date))
+            binding.btnFavorite.setBackgroundResource(R.drawable.ic_fav_red)
+        }
+
         //handle get similar movie
-        movieViewModel.networkStatusMovie.observe(viewLifecycleOwner, Observer {
+        movieViewModel.getSimilarMovie(movieId)
+        movieViewModel.networkStatusSimilarMovie.observe(viewLifecycleOwner, Observer {
             when(it.status){
                 Status.SUCCESS -> {
                     similarMovieAdapter.updateSimilarMovies(it.data)
@@ -100,7 +127,7 @@ class DetailFragment : Fragment() {
         }
 
         //click poster to watch trailer on youtube
-        binding.movieDetailImg.setOnClickListener {
+        binding.movieDetailImage.setOnClickListener {
             startActivity(
                 Intent(
                     Intent.ACTION_VIEW,
@@ -111,8 +138,29 @@ class DetailFragment : Fragment() {
 
     }
 
+    private fun isAddedToFavoriteMovies(movieId: Int) {
+        Log.i("MovieExist: ", movieViewModel.isMovieExistInFavorite(movieId).toString())
+    }
+
+    private fun handleSaveToFavorites(movie: FavoriteMovie) {
+        movieViewModel.saveFavoriteMovie(movie)
+    }
+
     private fun handleRatingRequest() {
         movieViewModel.ratingMovie(RatingRequest(ratingValue), movieId)
     }
 
+    private fun checkTheme() {
+        when(AppSharePreferences(requireActivity()).darkMode){
+            0 -> {
+                binding.btnFavorite.setBackgroundResource(R.drawable.ic_fav_border)
+            }
+            1 -> {
+                binding.btnFavorite.setBackgroundResource(R.drawable.ic_fav_white)
+            }
+            2-> {
+                binding.btnFavorite.setBackgroundResource(R.drawable.ic_fav_border)
+            }
+        }
+    }
 }

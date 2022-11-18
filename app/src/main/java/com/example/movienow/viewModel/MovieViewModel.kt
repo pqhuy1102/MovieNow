@@ -1,8 +1,10 @@
 package com.example.movienow.viewModel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.movienow.data.local.database.FavoriteMovie
 import com.example.movienow.data.remote.MovieRepository
 import com.example.movienow.data.remote.partial.Movie
 import com.example.movienow.data.remote.partial.SimilarMovie
@@ -30,9 +32,15 @@ class MovieViewModel @Inject constructor(
     private var _networkStatusSimilarMovies = MutableLiveData<Resource<List<SimilarMovie>>>()
     val networkStatusSimilarMovie:LiveData<Resource<List<SimilarMovie>>> = _networkStatusSimilarMovies
 
+    private var _getAllFavoriteMoviesStatus = MutableLiveData<Resource<List<FavoriteMovie>>>()
+    val getAllFavoriteMovieStatus:LiveData<Resource<List<FavoriteMovie>>> = _getAllFavoriteMoviesStatus
+
+    private var _isExistInFavoriteMovies = MutableLiveData<Boolean>()
+    val isExistInFavoriteMovies:LiveData<Boolean> = _isExistInFavoriteMovies
+
     //get all movies
-    init {
-        movieRepository.getAllMoviesWithPublishSubject()
+    fun getAllMovies(page:Int) {
+        movieRepository.getAllMoviesWithPublishSubject(page)
         movieRepository.getMoviesSubject().subscribe(
             {
                 _networkStatusMovie.postValue(Resource(Status.SUCCESS, it.results, null))
@@ -40,8 +48,7 @@ class MovieViewModel @Inject constructor(
             {
                 _networkStatusMovie.postValue(Resource(Status.ERROR, null, it.message.toString()))
             }
-        )
-    }
+        )    }
 
     fun getMovieDetail(movieId:Int) {
         movieRepository.getMovieDetailWithPublishProcessor(movieId)
@@ -69,7 +76,7 @@ class MovieViewModel @Inject constructor(
     }
 
     fun getSimilarMovie(movieId: Int){
-        movieRepository.getSimilarMoviesWithBehaviorSubject(movieId)
+        movieRepository.getSimilarMoviesWithPublishSubject(movieId)
         movieRepository.getSimilarMovies().subscribe(
             {
                 _networkStatusSimilarMovies.postValue(Resource(Status.SUCCESS, it.results, null))
@@ -78,6 +85,40 @@ class MovieViewModel @Inject constructor(
                 _networkStatusSimilarMovies.postValue(Resource(Status.ERROR, null, it.message.toString()))
             }
         )
+    }
+
+    fun saveFavoriteMovie(movie: FavoriteMovie){
+        movieRepository.saveFavoriteMovies(movie)
+            .subscribe({
+                Log.i("MyTag", "Sc")
+            },{
+                Log.i("MyTag", "err")
+            }
+            )
+    }
+
+    fun isMovieExistInFavorite(movieId: Int){
+        movieRepository.isMovieExistInFavorite(movieId)
+            .subscribe(
+                {
+                    _isExistInFavoriteMovies.value= it
+                },{
+
+                }
+            )
+    }
+
+    fun getAllFavoriteMovies(){
+        movieRepository.getAllFavoriteMovies()
+        movieRepository.getFavoriteMovies()
+            .subscribe(
+                {
+                    _getAllFavoriteMoviesStatus.postValue(Resource(Status.SUCCESS, it, null))
+                },
+                {
+                    _getAllFavoriteMoviesStatus.postValue(Resource(Status.ERROR, null, null))
+                }
+            )
     }
 }
 

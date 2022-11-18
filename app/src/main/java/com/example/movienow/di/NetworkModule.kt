@@ -1,10 +1,15 @@
 package com.example.movienow.di
 
+import android.content.Context
+import com.example.movienow.MyApplication
+import com.example.movienow.data.local.database.AppDatabase
+import com.example.movienow.data.local.database.FavoriteMovieDao
 import com.example.movienow.data.remote.service.MovieApiService
 import com.example.movienow.utils.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
 import okhttp3.Interceptor
@@ -36,7 +41,9 @@ object NetworkModule {
             return@Interceptor chain.proceed(request)
         }
 
-        return OkHttpClient.Builder().addInterceptor(requestInterceptor)
+        return OkHttpClient.Builder().addInterceptor(requestInterceptor).addInterceptor(
+            provideLoggingInterceptor()
+        )
             .build()
     }
 
@@ -62,4 +69,13 @@ object NetworkModule {
             .create(MovieApiService::class.java)
     }
 
+    @Provides
+    fun provideFavoriteMovieDao(appDatabase: AppDatabase):FavoriteMovieDao{
+        return appDatabase.favoriteMovieDao()
+    }
+
+    @Provides
+    fun provideAppDatabase(@ApplicationContext appContext: Context): AppDatabase{
+        return AppDatabase.getDatabase(appContext)
+    }
 }

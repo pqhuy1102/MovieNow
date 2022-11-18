@@ -12,11 +12,13 @@ import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface MovieApiService {
 
     @GET("movie/popular")
      fun getAllMovies(
+        @Query("page")page:Int
     ) : Single<MovieResponse>
 
      @GET("movie/{movie_id}")
@@ -24,7 +26,7 @@ interface MovieApiService {
          @Path("movie_id")id:Int
      ) : Observable<MovieDetail>
 
-     @GET("/movie/{movie_id}/similar")
+     @GET("movie/{movie_id}/similar")
      fun getSimilarMovie(
          @Path("movie_id")id:Int
      ):Single<SimilarMoviesResponse>

@@ -4,18 +4,19 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movienow.data.remote.partial.Movie
+import com.example.movienow.data.remote.partial.SimilarMovie
 import com.example.movienow.databinding.SimilarMovieItemBinding
 
 class SimilarMoviesAdapter : RecyclerView.Adapter<SimilarMoviesAdapter.SimilarMovieViewHolder>() {
-    private var similarMovies = mutableListOf<Movie>()
+    private var similarMovies = mutableListOf<SimilarMovie>()
 
-    fun updateSimilarMovies(similarMovies: List<Movie>?){
+    fun updateSimilarMovies(similarMovies: List<SimilarMovie>?){
         this.similarMovies = similarMovies!!.toMutableList()
         notifyDataSetChanged()
     }
 
     class SimilarMovieViewHolder(private val binding:SimilarMovieItemBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(similarMovie: Movie){
+        fun bind(similarMovie: SimilarMovie){
             binding.similarMovie = similarMovie
         }
     }

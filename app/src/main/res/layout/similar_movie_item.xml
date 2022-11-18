@@ -5,21 +5,23 @@
     <data>
         <variable
             name="similarMovie"
-            type="com.example.movienow.data.remote.partial.Movie" />
+            type="com.example.movienow.data.remote.partial.SimilarMovie" />
     </data>
 
     <androidx.cardview.widget.CardView
         android:layout_width="200dp"
-        android:layout_height="120dp"
+        android:layout_height="140dp"
         android:elevation="2dp"
         app:cardCornerRadius="10dp"
         app:cardUseCompatPadding="true">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/img_similar_movie"
-            android:layout_width="200dp"
-            android:layout_height="120dp"
-            android:scaleType="centerCrop"
-            app:loadImage="@{similarMovie.poster_path}" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/img_similar_movie"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:scaleType="centerCrop"
+                app:loadImage="@{similarMovie.poster_path}" />
+
     </androidx.cardview.widget.CardView>
 </layout>

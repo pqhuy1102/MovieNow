@@ -10,6 +10,8 @@
         android:id="@+id/linearAppName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@id/search_view"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -21,25 +23,27 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:text="@string/movienow"
-            android:layout_margin="8dp"
-            android:textColor="@color/black"
             android:textSize="32sp"
+            android:layout_marginLeft="10dp"
             android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/btnTheme"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="@string/choose_theme"
-            android:textAllCaps="false"
-            android:textSize="14sp"
-            android:textColor="@color/white"
-            tools:ignore="RelativeOverlap" />
+        <ImageView
+            android:id="@+id/btnFavMovies"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/btnDarkMode"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/ic_fav_red" />
+
+        <ImageView
+            android:id="@+id/btnDarkMode"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/ic_darkmode" />
     </RelativeLayout>
 
     <SearchView
@@ -47,29 +51,54 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="12dp"
         android:background="@drawable/custom_search"
         android:queryHint="Search movie..."
         app:iconifiedByDefault="false"
-        app:layout_constraintBottom_toTopOf="@id/rcvMovieList"
+        app:layout_constraintBottom_toTopOf="@id/ln_filter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/linearAppName"
         app:queryBackground="@null" />
+
+    <LinearLayout
+        android:id="@+id/ln_filter"
+        app:layout_constraintTop_toBottomOf="@+id/search_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Filter:"
+            android:textSize = "18sp" />
+
+        <Spinner
+            android:id="@+id/spinner_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvMovieList"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_view" />
+        app:layout_constraintTop_toBottomOf="@id/ln_filter" />
 
     <ProgressBar
         android:id="@+id/progressbar"
