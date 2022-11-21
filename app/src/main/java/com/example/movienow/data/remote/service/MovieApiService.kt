@@ -18,7 +18,6 @@ interface MovieApiService {
 
     @GET("movie/popular")
      fun getAllMovies(
-        @Query("page")page:Int
     ) : Single<MovieResponse>
 
      @GET("movie/{movie_id}")

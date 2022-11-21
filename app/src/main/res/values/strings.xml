@@ -19,5 +19,6 @@
     <string-array name="Types">
         <item>Popular Movies</item>
         <item>Latest Movies</item>
+        <item>Highest Rating Movies</item>
     </string-array>
 </resources>

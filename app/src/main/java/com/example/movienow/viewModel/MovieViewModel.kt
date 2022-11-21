@@ -37,12 +37,12 @@ class MovieViewModel @Inject constructor(
     private var _isExistInFavoriteMovies = MutableLiveData<Boolean>()
     val isExistInFavoriteMovies:LiveData<Boolean> = _isExistInFavoriteMovies
 
-    private var _isDeleteFavoriteMovieSuccessfull = MutableLiveData<Resource<Boolean>>()
-    val isDeleteFavoriteMovieSuccessfull:LiveData<Resource<Boolean>> = _isDeleteFavoriteMovieSuccessfull
+    private var _isDeleteFavoriteMovieSuccessful = MutableLiveData<Resource<Boolean>>()
+    val isDeleteFavoriteMovieSuccessful:LiveData<Resource<Boolean>> = _isDeleteFavoriteMovieSuccessful
 
     //get all movies
-    fun getAllMovies(page:Int) {
-        movieRepository.getAllMoviesWithPublishSubject(page)
+    fun getAllMovies() {
+        movieRepository.getAllMoviesWithPublishSubject()
         movieRepository.getMoviesSubject().subscribe(
             {
                 _networkStatusMovie.postValue(Resource(Status.SUCCESS, it.results, null))
@@ -102,10 +102,10 @@ class MovieViewModel @Inject constructor(
         movieRepository.deleteFavoriteMovie(movieId)
             .subscribe(
                 {
-                    _isDeleteFavoriteMovieSuccessfull.postValue(Resource(Status.SUCCESS, true, "Delete this movie successfully!"))
+                    _isDeleteFavoriteMovieSuccessful.postValue(Resource(Status.SUCCESS, true, "Delete this movie successfully!"))
                 },
                 {
-                    _isDeleteFavoriteMovieSuccessfull.postValue(Resource(Status.ERROR, true, "Delete this movie fail!"))
+                    _isDeleteFavoriteMovieSuccessful.postValue(Resource(Status.ERROR, true, "Delete this movie fail!"))
                 }
             )
     }

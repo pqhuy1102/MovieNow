@@ -30,8 +30,8 @@ class MovieRepository @Inject constructor(
     private val similarMovies = PublishSubject.create<SimilarMoviesResponse>()
     private val favoriteMovies = BehaviorSubject.create<List<FavoriteMovie>>()
 
-    fun getAllMoviesWithPublishSubject(page: Int){
-      movieApiService.getAllMovies(page)
+    fun getAllMoviesWithPublishSubject(){
+      movieApiService.getAllMovies()
           .observeOn(AndroidSchedulers.mainThread())
           .subscribeOn(Schedulers.io())
           .subscribe({
@@ -133,7 +133,7 @@ class MovieRepository @Inject constructor(
     }
 
     fun getAllMoviesWithSingle() :Single<MovieResponse>{
-        return movieApiService.getAllMovies(1)
+        return movieApiService.getAllMovies()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
     }

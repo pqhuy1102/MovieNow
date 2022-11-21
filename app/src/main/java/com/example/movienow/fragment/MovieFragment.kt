@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movienow.R
 import com.example.movienow.adapter.MovieAdapter
 import com.example.movienow.data.local.AppSharePreferences
+import com.example.movienow.data.remote.partial.Movie
 import com.example.movienow.databinding.FragmentMovieBinding
 import com.example.movienow.utils.Status
 import com.example.movienow.viewModel.MovieViewModel
@@ -25,6 +26,7 @@ class MovieFragment : Fragment() {
     private lateinit var movieAdapter:MovieAdapter
     private lateinit var movieViewModel: MovieViewModel
     private val disposables = CompositeDisposable()
+    private var movieList: List<Movie>? = null
 
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,7 +54,7 @@ class MovieFragment : Fragment() {
             adapter = movieAdapter
         }
 
-        movieViewModel.getAllMovies(1)
+        movieViewModel.getAllMovies()
         movieViewModel.networkStatusMovie.observe(viewLifecycleOwner){
             when (it.status){
                 Status.LOADING -> {
@@ -65,6 +67,7 @@ class MovieFragment : Fragment() {
                 Status.SUCCESS -> {
                     binding.progressbar.visibility = View.GONE
                     movieAdapter.updateMovies(it.data)
+                    movieList = it.data
                 }
             }
         }
@@ -87,15 +90,26 @@ class MovieFragment : Fragment() {
 
         //handle select type movies
         val spinner = binding.spinnerFilter
-        ArrayAdapter.createFromResource(requireActivity(), R.array.Types, android.R.layout.simple_spinner_item ).also {
+        ArrayAdapter.createFromResource(requireActivity(), R.array.Types, R.layout.custom_spinner_item).also {
                 adapter -> adapter.setDropDownViewResource(R.layout.custom_spinner_item)
                 spinner.adapter = adapter
             }
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
-                if(pos == 0) movieViewModel.getAllMovies(1)
-                else movieViewModel.getAllMovies(2)
+                when (pos) {
+                    0 -> movieViewModel.getAllMovies()
+                    1 -> {
+                        movieAdapter.updateMovies(movieList?.sortedByDescending {
+                            it.release_date
+                        })
+                    }
+                    else -> {
+                        movieAdapter.updateMovies(movieList?.sortedByDescending {
+                            it.vote_average
+                        })
+                    }
+                }
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }

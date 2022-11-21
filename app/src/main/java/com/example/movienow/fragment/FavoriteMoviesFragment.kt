@@ -66,7 +66,7 @@ class FavoriteMoviesFragment : Fragment() {
 
         //handle remove movie
         handleRemoveMovie()
-        movieViewModel.isDeleteFavoriteMovieSuccessfull.observe(viewLifecycleOwner){
+        movieViewModel.isDeleteFavoriteMovieSuccessful.observe(viewLifecycleOwner){
             when(it.status){
                 Status.SUCCESS ->{
                     Toast.makeText(activity, it.message.toString(), Toast.LENGTH_LONG).show()
