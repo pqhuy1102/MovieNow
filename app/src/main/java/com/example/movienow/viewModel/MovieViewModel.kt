@@ -91,8 +91,20 @@ class MovieViewModel @Inject constructor(
             .subscribe({
                 Log.i("MyTag", "Sc")
             },{
-                Log.i("MyTag", "err")
+                Log.i("MyTag", it.message.toString())
             }
+            )
+    }
+
+    fun deleteFavoriteMovie(movieId: Int){
+        movieRepository.deleteFavoriteMovie(movieId)
+            .subscribe(
+                {
+                    Log.i("Delete Movie Info", "Sc")
+                },
+                {
+                    Log.i("Delete Movie Info", it.message.toString())
+                }
             )
     }
 
@@ -102,7 +114,7 @@ class MovieViewModel @Inject constructor(
                 {
                     _isExistInFavoriteMovies.value= it
                 },{
-
+                    Log.i("Check exist err", it.message.toString())
                 }
             )
     }

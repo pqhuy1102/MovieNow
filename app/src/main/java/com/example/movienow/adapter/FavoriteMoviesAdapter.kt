@@ -7,13 +7,24 @@ import com.example.movienow.data.local.database.FavoriteMovie
 import com.example.movienow.databinding.FavMovieItemBinding
 
 class FavoriteMoviesAdapter :RecyclerView.Adapter<FavoriteMoviesAdapter.FavoriteMovieViewHolder>() {
-
-
     private var favMovies = mutableListOf<FavoriteMovie>()
+    private lateinit var deleteMovie: FavoriteMovie
 
     fun updateFavMovies(movies:List<FavoriteMovie>){
         this.favMovies = movies.toMutableList()
         notifyDataSetChanged()
+    }
+
+    fun deleteFavMovie (position: Int){
+        deleteMovie = favMovies.removeAt(position)
+        val removedMovieList = favMovies.filter {
+            movie -> movie.id != deleteMovie.id
+        }
+        updateFavMovies(removedMovieList)
+    }
+
+    fun getDeleteMovie():FavoriteMovie{
+        return deleteMovie
     }
 
     class FavoriteMovieViewHolder(private val binding: FavMovieItemBinding) : RecyclerView.ViewHolder(binding.root){

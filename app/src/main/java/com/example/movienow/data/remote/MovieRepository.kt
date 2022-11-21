@@ -100,6 +100,12 @@ class MovieRepository @Inject constructor(
             )
     }
 
+    fun deleteFavoriteMovie(movieId:Int) : Completable{
+        return favoriteMovieDao.deleteFavoriteMovie(movieId)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+    }
+
     fun isMovieExistInFavorite(movieId: Int) : Single<Boolean>{
         return favoriteMovieDao.isMovieExist(movieId)
             .observeOn(AndroidSchedulers.mainThread())
@@ -143,8 +149,6 @@ class MovieRepository @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
     }
-
-
 }
 
 

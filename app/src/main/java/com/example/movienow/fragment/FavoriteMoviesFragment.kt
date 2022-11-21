@@ -85,7 +85,9 @@ class FavoriteMoviesFragment : Fragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val pos = viewHolder.adapterPosition
-                //list.remove(pos)
+                favMoviesAdapter.deleteFavMovie(pos)
+                val swipedMovie = favMoviesAdapter.getDeleteMovie()
+                movieViewModel.deleteFavoriteMovie(swipedMovie.id)
                 favMoviesAdapter.notifyItemRemoved(pos)
             }
 

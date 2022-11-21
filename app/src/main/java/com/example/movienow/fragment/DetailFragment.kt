@@ -3,7 +3,6 @@ package com.example.movienow.fragment
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -74,7 +73,7 @@ class DetailFragment : Fragment() {
         }
 
         //handle save to favorites
-        isAddedToFavoriteMovies(movieId)
+        movieViewModel.isMovieExistInFavorite(movieId).toString()
         movieViewModel.isExistInFavoriteMovies.observe(viewLifecycleOwner) {
             if (it) {
                 binding.btnFavorite.setBackgroundResource(R.drawable.ic_fav_red)
@@ -129,10 +128,6 @@ class DetailFragment : Fragment() {
             )
         }
 
-    }
-
-    private fun isAddedToFavoriteMovies(movieId: Int) {
-        Log.i("MovieExist: ", movieViewModel.isMovieExistInFavorite(movieId).toString())
     }
 
     private fun handleSaveToFavorites(movie: FavoriteMovie) {

@@ -22,13 +22,9 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 @AndroidEntryPoint //generates an individual Hilt component -> receive dependencies
 class MovieFragment : Fragment() {
     private lateinit var binding: FragmentMovieBinding
-
     private lateinit var movieAdapter:MovieAdapter
-
     private lateinit var movieViewModel: MovieViewModel
-
     private val disposables = CompositeDisposable()
-
 
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {

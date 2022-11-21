@@ -17,4 +17,7 @@ interface FavoriteMovieDao {
 
     @Query("SELECT EXISTS(SELECT * FROM favoritemovie WHERE id = :movieId)")
     fun isMovieExist(movieId: Int): Single<Boolean>
+
+    @Query("DELETE FROM favoritemovie WHERE id = :movieId")
+    fun deleteFavoriteMovie(movieId: Int):Completable
 }

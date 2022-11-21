@@ -46,7 +46,6 @@ object NetworkModule {
             .build()
     }
 
-
     @Singleton
     @Provides
     @Named("loggingInterceptor")
