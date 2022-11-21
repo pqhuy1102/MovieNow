@@ -40,9 +40,9 @@ object NetworkModule {
             return@Interceptor chain.proceed(request)
         }
 
-        return OkHttpClient.Builder().addInterceptor(requestInterceptor).addInterceptor(
-            provideLoggingInterceptor()
-        )
+        return OkHttpClient.Builder()
+            .addInterceptor(requestInterceptor)
+            .addInterceptor(provideLoggingInterceptor())
             .build()
     }
 
@@ -65,15 +65,5 @@ object NetworkModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(MovieApiService::class.java)
-    }
-
-    @Provides
-    fun provideFavoriteMovieDao(appDatabase: AppDatabase):FavoriteMovieDao{
-        return appDatabase.favoriteMovieDao()
-    }
-
-    @Provides
-    fun provideAppDatabase(@ApplicationContext appContext: Context): AppDatabase{
-        return AppDatabase.getDatabase(appContext)
     }
 }

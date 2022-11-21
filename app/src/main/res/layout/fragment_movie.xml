@@ -6,60 +6,21 @@
     android:layout_height="match_parent"
     tools:context="fragment.MovieFragment">
 
-    <RelativeLayout
-        android:id="@+id/linearAppName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@id/search_view"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/tvAppName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:text="@string/movienow"
-            android:textSize="32sp"
-            android:layout_marginLeft="10dp"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:id="@+id/btnFavMovies"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/btnDarkMode"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/ic_fav_red" />
-
-        <ImageView
-            android:id="@+id/btnDarkMode"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/ic_darkmode" />
-    </RelativeLayout>
-
     <SearchView
         android:id="@+id/search_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="12dp"
         android:background="@drawable/custom_search"
         android:queryHint="Search movie..."
         app:iconifiedByDefault="false"
         app:layout_constraintBottom_toTopOf="@id/ln_filter"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linearAppName"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:queryBackground="@null" />
 
     <LinearLayout
@@ -67,9 +28,9 @@
         app:layout_constraintTop_toBottomOf="@+id/search_view"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginEnd="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -77,7 +38,8 @@
             android:id="@+id/tvFilter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Filter:"
+            android:text="@string/filter"
+            android:layout_marginEnd="10dp"
             android:textSize = "18sp" />
 
         <Spinner
@@ -92,8 +54,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

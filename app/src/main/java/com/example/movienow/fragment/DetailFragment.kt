@@ -53,6 +53,7 @@ class DetailFragment : Fragment() {
         movieId = args.movieId
         movieViewModel.getMovieDetail(movieId)
 
+        //check dark theme or light theme
         checkTheme()
 
         movieViewModel.networkStatusMovieDetail.observe(viewLifecycleOwner) {
@@ -80,7 +81,8 @@ class DetailFragment : Fragment() {
             }
         }
         binding.btnFavorite.setOnClickListener {
-            handleSaveToFavorites(FavoriteMovie(movieDetail!!.id, movieDetail!!.title, movieDetail!!.poster_path, movieDetail!!.release_date))
+            movieViewModel.saveFavoriteMovie(
+                FavoriteMovie(movieDetail!!.id, movieDetail!!.title, movieDetail!!.poster_path, movieDetail!!.release_date))
             binding.btnFavorite.setBackgroundResource(R.drawable.ic_fav_red)
         }
 
@@ -118,7 +120,7 @@ class DetailFragment : Fragment() {
             adapter = similarMovieAdapter
         }
 
-        //click poster to watch trailer on youtube
+        //click movie poster to watch trailer on youtube
         binding.movieDetailImage.setOnClickListener {
             startActivity(
                 Intent(
@@ -128,10 +130,6 @@ class DetailFragment : Fragment() {
             )
         }
 
-    }
-
-    private fun handleSaveToFavorites(movie: FavoriteMovie) {
-        movieViewModel.saveFavoriteMovie(movie)
     }
 
     private fun handleRatingRequest() {

@@ -8,8 +8,8 @@
     <fragment
         android:id="@+id/movieFragment"
         android:name="com.example.movienow.fragment.MovieFragment"
-        android:label="fragment_movie"
-        tools:layout="@layout/fragment_movie" >
+        android:label="@string/movienow"
+        tools:layout="@layout/fragment_movie">
         <action
             android:id="@+id/action_movieFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
@@ -20,8 +20,8 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.example.movienow.fragment.DetailFragment"
-        android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" >
+        android:label="Movie Detail"
+        tools:layout="@layout/fragment_detail">
         <argument
             android:name="movieId"
             app:argType="integer" />
@@ -29,7 +29,7 @@
     <fragment
         android:id="@+id/favoriteMoviesFragment"
         android:name="com.example.movienow.fragment.FavoriteMoviesFragment"
-        android:label="fragment_favorite_movies"
+        android:label="@string/my_favorite_movies"
         tools:layout="@layout/fragment_favorite_movies" />
 
 </navigation>

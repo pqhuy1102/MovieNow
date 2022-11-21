@@ -69,19 +69,12 @@ class MovieFragment : Fragment() {
             }
         }
 
-        //handle move to fav movies fragment
-        binding.btnFavMovies.setOnClickListener {
-            val action = MovieFragmentDirections.actionMovieFragmentToFavoriteMoviesFragment()
-            findNavController().navigate(action)
-        }
-
         //handle search movie
         binding.searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 movieAdapter.filter.filter(query)
                 return false
             }
-
             override fun onQueryTextChange(newText: String?): Boolean {
                 movieAdapter.filter.filter(newText)
                 return false
@@ -91,14 +84,11 @@ class MovieFragment : Fragment() {
 
         //handle change theme
         checkTheme()
-        binding.btnDarkMode.setOnClickListener {
-            handleChooseThemeDialog()
-        }
 
         //handle select type movies
         val spinner = binding.spinnerFilter
         ArrayAdapter.createFromResource(requireActivity(), R.array.Types, android.R.layout.simple_spinner_item ).also {
-                adapter -> adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                adapter -> adapter.setDropDownViewResource(R.layout.custom_spinner_item)
                 spinner.adapter = adapter
             }
 
@@ -116,52 +106,16 @@ class MovieFragment : Fragment() {
         when(AppSharePreferences(requireActivity()).darkMode){
             0 -> {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                binding.btnDarkMode.setBackgroundResource(R.drawable.ic_darkmode)
             }
             1 -> {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                binding.btnDarkMode.setBackgroundResource(R.drawable.ic_darkmode_white)
             }
             2-> {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                binding.btnDarkMode.setBackgroundResource(R.drawable.ic_darkmode)
             }
         }
     }
 
-    private fun handleChooseThemeDialog(){
-        val builder = AlertDialog.Builder(activity)
-        builder.setTitle(R.string.choose_theme)
-        val styles = arrayOf("Light Mode", "Dark Mode", "System Default")
-        val checkedItem = AppSharePreferences(requireActivity()).darkMode
-
-        builder.setSingleChoiceItems(styles, checkedItem){
-                dialog, which ->
-            when(which){
-                0 -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                    AppSharePreferences(requireActivity()).darkMode = 0
-                    binding.btnDarkMode.setBackgroundResource(R.drawable.ic_darkmode)
-                    dialog.dismiss()
-                }
-                1 -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                    AppSharePreferences(requireActivity()).darkMode = 1
-                    binding.btnDarkMode.setBackgroundResource(R.drawable.ic_darkmode_white)
-                    dialog.dismiss()
-                }
-                2 -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                    AppSharePreferences(requireActivity()).darkMode = 2
-                    binding.btnDarkMode.setBackgroundResource(R.drawable.ic_darkmode)
-                    dialog.dismiss()
-                }
-            }
-        }
-
-        val dialog = builder.create()
-        dialog.show()
-    }
 
     override fun onDestroy() {
         super.onDestroy()

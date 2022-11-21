@@ -7,5 +7,5 @@ import dagger.hilt.android.HiltAndroidApp
 //trigger generate code from Hilt
 @HiltAndroidApp
 class MyApplication : Application(){
-    val database: AppDatabase by lazy { AppDatabase.getDatabase(this) }
+//    val database: AppDatabase by lazy { AppDatabase.getDatabase(this) }
 }
