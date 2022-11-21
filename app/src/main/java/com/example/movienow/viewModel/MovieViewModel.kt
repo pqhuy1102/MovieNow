@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.movienow.data.local.database.FavoriteMovie
-import com.example.movienow.data.remote.MovieRepository
+import com.example.movienow.data.MovieRepository
 import com.example.movienow.data.remote.partial.Movie
 import com.example.movienow.data.remote.partial.SimilarMovie
 import com.example.movienow.data.remote.request.RatingRequest

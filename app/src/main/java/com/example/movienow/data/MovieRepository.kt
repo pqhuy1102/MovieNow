@@ -1,4 +1,4 @@
-package com.example.movienow.data.remote
+package com.example.movienow.data
 
 
 import com.example.movienow.data.local.database.FavoriteMovie
