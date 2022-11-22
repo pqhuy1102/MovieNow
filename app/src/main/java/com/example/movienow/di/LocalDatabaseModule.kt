@@ -1,6 +1,7 @@
 package com.example.movienow.di
 
 import android.content.Context
+import android.content.SharedPreferences
 import com.example.movienow.data.local.database.AppDatabase
 import com.example.movienow.data.local.database.FavoriteMovieDao
 import dagger.Module
@@ -24,4 +25,5 @@ object LocalDatabaseModule {
     fun provideAppDatabase(@ApplicationContext appContext: Context): AppDatabase {
         return AppDatabase.getDatabase(appContext)
     }
+
 }

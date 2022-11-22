@@ -53,9 +53,6 @@ class DetailFragment : Fragment() {
         movieId = args.movieId
         movieViewModel.getMovieDetail(movieId)
 
-        //check dark theme or light theme
-        checkTheme()
-
         movieViewModel.networkStatusMovieDetail.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.LOADING -> {
@@ -136,17 +133,4 @@ class DetailFragment : Fragment() {
         movieViewModel.ratingMovie(RatingRequest(ratingValue), movieId)
     }
 
-    private fun checkTheme() {
-        when(AppSharePreferences(requireActivity()).darkMode){
-            0 -> {
-                binding.btnFavorite.setBackgroundResource(R.drawable.ic_fav_border)
-            }
-            1 -> {
-                binding.btnFavorite.setBackgroundResource(R.drawable.ic_fav_white)
-            }
-            2-> {
-                binding.btnFavorite.setBackgroundResource(R.drawable.ic_fav_border)
-            }
-        }
-    }
 }

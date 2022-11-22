@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
@@ -14,16 +15,23 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.movienow.R
 import com.example.movienow.data.local.AppSharePreferences
 import com.example.movienow.databinding.ActivityMainBinding
+import com.example.movienow.viewModel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding:ActivityMainBinding
     private lateinit var navController: NavController
+    private lateinit var mainViewModel: MainViewModel
+    private var checkItem: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+        mainViewModel = ViewModelProvider(this) [MainViewModel::class.java]
+
+        checkTheme()
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.container_fragment) as NavHostFragment
         navController = navHostFragment.navController
@@ -59,24 +67,24 @@ class MainActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle(R.string.choose_theme)
         val styles = arrayOf("Light Mode", "Dark Mode", "System Default")
-        val checkedItem = AppSharePreferences(this).darkMode
+        checkItem = mainViewModel.getDarkModeStatus()
 
-        builder.setSingleChoiceItems(styles, checkedItem){
+        builder.setSingleChoiceItems(styles, checkItem){
                 dialog, which ->
             when(which){
                 0 -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                    AppSharePreferences(this).darkMode = 0
+                    mainViewModel.setDarkModeStatus(0)
                     dialog.dismiss()
                 }
                 1 -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                    AppSharePreferences(this).darkMode = 1
+                    mainViewModel.setDarkModeStatus(1)
                     dialog.dismiss()
                 }
                 2 -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                    AppSharePreferences(this).darkMode = 2
+                    mainViewModel.setDarkModeStatus(2)
                     dialog.dismiss()
                 }
             }
@@ -85,5 +93,19 @@ class MainActivity : AppCompatActivity() {
         val dialog = builder.create()
         dialog.show()
         return true
+    }
+
+    private fun checkTheme() {
+        when(mainViewModel.getDarkModeStatus()){
+            0 -> {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+            1 -> {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            }
+            2-> {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            }
+        }
     }
 }

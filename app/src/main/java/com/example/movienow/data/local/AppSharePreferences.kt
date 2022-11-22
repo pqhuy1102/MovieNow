@@ -1,15 +1,27 @@
 package com.example.movienow.data.local
 
 import android.content.Context
+import android.content.SharedPreferences
+import androidx.preference.Preference
 import androidx.preference.PreferenceManager
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class AppSharePreferences(context:Context) {
+@Singleton
+class AppSharePreferences @Inject constructor(@ApplicationContext context:Context) {
+    private val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+
     companion object{
-        private const val DARKMODE_STATUS = ""
+        private const val DARK_MODE_STATUS = "DarkModeStatus"
     }
 
-    private val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+    fun getDarkModeStatus() : Int{
+        return preferences.getInt(DARK_MODE_STATUS, 0)
+    }
 
-    var darkMode = sharedPreferences.getInt(DARKMODE_STATUS, 0)
-    set(value) = sharedPreferences.edit().putInt(DARKMODE_STATUS, value).apply()
+    fun setDarkModeStatus(value: Int){
+        preferences.edit().putInt(DARK_MODE_STATUS, value).apply()
+    }
+
 }

@@ -54,7 +54,10 @@ class MovieFragment : Fragment() {
             adapter = movieAdapter
         }
 
-        movieViewModel.getAllMovies()
+        if(movieList == null){
+            movieViewModel.getAllMovies()
+        }
+
         movieViewModel.networkStatusMovie.observe(viewLifecycleOwner){
             when (it.status){
                 Status.LOADING -> {
@@ -85,9 +88,6 @@ class MovieFragment : Fragment() {
 
         })
 
-        //handle change theme
-        checkTheme()
-
         //handle select type movies
         val spinner = binding.spinnerFilter
         ArrayAdapter.createFromResource(requireActivity(), R.array.Types, R.layout.custom_spinner_item).also {
@@ -116,19 +116,7 @@ class MovieFragment : Fragment() {
         }
     }
 
-    private fun checkTheme() {
-        when(AppSharePreferences(requireActivity()).darkMode){
-            0 -> {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
-            1 -> {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            }
-            2-> {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-            }
-        }
-    }
+
 
 
     override fun onDestroy() {
