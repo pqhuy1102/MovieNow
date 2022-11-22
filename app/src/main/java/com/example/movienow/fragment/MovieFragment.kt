@@ -54,7 +54,7 @@ class MovieFragment : Fragment() {
             adapter = movieAdapter
         }
 
-        if(movieList == null){
+        if(movieViewModel.networkStatusMovie.value?.data == null){
             movieViewModel.getAllMovies()
         }
 
@@ -70,7 +70,6 @@ class MovieFragment : Fragment() {
                 Status.SUCCESS -> {
                     binding.progressbar.visibility = View.GONE
                     movieAdapter.updateMovies(it.data)
-                    movieList = it.data
                 }
             }
         }
@@ -98,14 +97,16 @@ class MovieFragment : Fragment() {
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
                 when (pos) {
-                    0 -> movieViewModel.getAllMovies()
+                    0 -> {
+                        movieViewModel.getAllMovies()
+                    }
                     1 -> {
-                        movieAdapter.updateMovies(movieList?.sortedByDescending {
+                        movieAdapter.updateMovies(movieViewModel.networkStatusMovie.value?.data?.sortedByDescending {
                             it.release_date
                         })
                     }
                     else -> {
-                        movieAdapter.updateMovies(movieList?.sortedByDescending {
+                        movieAdapter.updateMovies(movieViewModel.networkStatusMovie.value?.data?.sortedByDescending {
                             it.vote_average
                         })
                     }
@@ -115,9 +116,6 @@ class MovieFragment : Fragment() {
             }
         }
     }
-
-
-
 
     override fun onDestroy() {
         super.onDestroy()
